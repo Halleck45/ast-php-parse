@@ -1,0 +1,15 @@
+{
+    "name": "halleck45/ast-php",
+    "description": "Convert PHP Code to ast file",
+    "type": "project",
+    "require": {
+        "nikic/php-parser": "^5.3"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jean-François Lépine",
+            "email": "lepinejeanfrancois@gmail.com"
+        }
+    ]
+}
