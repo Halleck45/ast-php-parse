@@ -1,0 +1,9 @@
+buildroot
+downloads
+pkgroot
+source
+vendor
+spc
+*.phar
+micro
+build
