@@ -2,6 +2,8 @@
 
 Dumps PHP Code to AST file (and back).
 
+This projects is currently in development and is not ready.
+
 # Why?
 
 To be able to parse PHP code from any language that can embed a C library
@@ -14,7 +16,7 @@ make
 
 ## Dependencies
 
-No dependencies are required.
+No dependencies are required. PHP is built-in thanks to [static-php-cli](https://github.com/crazywhalecc/static-php-cli).
 
 ## Usage
 
