@@ -1,17 +1,9 @@
 #!/usr/bin/env php
 <?php
 
-foreach ([__DIR__ . '/../../../autoload.php', __DIR__ . '/../vendor/autoload.php'] as $file) {
-    if (file_exists($file)) {
-        require $file;
-        break;
-    }
-}
-
 // argv and argc from phar
 $argv = $argv ?? $_SERVER['argv'];
 $argc = $argc ?? $_SERVER['argc'];
-
 
 ini_set('xdebug.max_nesting_level', 3000);
 
@@ -31,6 +23,5 @@ if (!file_exists($file) || !is_readable($file)) {
     fwrite(STDERR, 'Please ensure you have provided an absolute file path.' . PHP_EOL);
     exit(1);
 }
-$code = file_get_contents($file);
 
-echo json_encode(ast\parse_code($code), JSON_PRETTY_PRINT) . PHP_EOL;
+echo json_encode(ast\parse_file($file, $version=100), JSON_PRETTY_PRINT) . PHP_EOL;

@@ -1,12 +1,10 @@
 #!/usr/bin/env php
 <?php
 
-foreach ([__DIR__ . '/../../autoload.php', __DIR__ . '/../vendor/autoload.php'] as $file) {
-    if (file_exists($file)) {
-        require $file;
-        break;
-    }
-}
+spl_autoload_register(function ($class) {
+    $class = str_replace('\\', '/', $class);
+    require_once __DIR__ . '/../vendor/nikic/php-parser/lib/' . $class . '.php';
+});
 
 // argv and argc from phar
 $argv = $argv ?? $_SERVER['argv'];

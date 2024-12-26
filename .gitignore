@@ -7,6 +7,8 @@ spc
 *.phar
 micro
 build
+composer
+php
 
 # temporary files, awaiting merge of https://github.com/crazywhalecc/static-php-cli/pull/583
 static-php-cli

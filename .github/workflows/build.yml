@@ -1,0 +1,40 @@
+name: build
+
+on:
+  push:
+    tags:
+      - "*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the repository
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      # Install deependencies
+      - name: "Install dependencies"
+        run: |
+          # spc is a PHP program to manage build
+          apt update
+          apt install -y php-cli
+
+          # Install dependencies
+          make spc
+          ./spc doctor --auto-fix
+
+      # Build artifacts
+      - name: "Build artifacts"
+        run: make build
+
+      # Publish all files in the "build" directory
+      - name: "Publish artifacts"
+        uses: actions/upload-artifact@v2
+        with:
+          name: build
+          path: build/*
