@@ -8,6 +8,12 @@ This projects is currently in development and is not ready.
 
 To be able to parse PHP code from any language that can embed a C library.
 
+# How?
+
+Thanks to [static-php-cli](https://github.com/crazywhalecc/static-php-cli), we build a PHP binary with the `ast` extension enabled.
+
+Then we use this binary to parse PHP code and dump it to an `ast` file.
+
 ## Building binaries and libs
     
 ```bash
@@ -45,3 +51,7 @@ ast-dump output.ast > myfile.php
 + [ ] Adding `ast` support to [static-php-cli](https://github.com/crazywhalecc/static-php-cli/) (Cf. This [PR](https://github.com/crazywhalecc/static-php-cli/pull/5831)))
 + [ ] Embed as C library
 + [ ] ARM, Darwin, Windows support
+
+# License
+
+MIT. See [LICENSE](LICENSE) file.
