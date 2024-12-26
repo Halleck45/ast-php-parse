@@ -7,3 +7,6 @@ spc
 *.phar
 micro
 build
+
+# temporary files, awaiting merge of https://github.com/crazywhalecc/static-php-cli/pull/583
+static-php-cli

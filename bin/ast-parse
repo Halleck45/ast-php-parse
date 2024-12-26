@@ -33,18 +33,4 @@ if (!file_exists($file) || !is_readable($file)) {
 }
 $code = file_get_contents($file);
 
-$version = PhpParser\PhpVersion::getNewestSupported();
-$parser = (new PhpParser\ParserFactory())->createForVersion($version);
-$dumper = new PhpParser\NodeDumper([
-    'dumpComments' => true,
-    'dumpPositions' => true,
-]);
-$prettyPrinter = new PhpParser\PrettyPrinter\Standard;
-
-$traverser = new PhpParser\NodeTraverser();
-$traverser->addVisitor(new PhpParser\NodeVisitor\NameResolver);
-
-
-
-$stmts = $parser->parse($code);
-echo json_encode($stmts, JSON_PRETTY_PRINT), "\n";
+echo json_encode(ast\parse_code($code), JSON_PRETTY_PRINT) . PHP_EOL;
