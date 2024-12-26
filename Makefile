@@ -14,13 +14,18 @@ spc:
 	./spc download --with-php=8.4 --for-extensions "ctype,tokenizer" --prefer-pre-built
 	./spc install-pkg upx
 
+# todo: replace me with "ast"
 micro: buildroot/bin/micro.sfx
 	./spc build --build-micro "ctype,tokenizer" --with-upx-pack
 	touch micro
 
-build: spc ast-phar ast-dump micro
+build: build-binaries build-lib
+
+build-binaries: spc ast-phar ast-dump micro
 	mkdir -p build
 	./spc micro:combine ast-parse.phar --output=build/ast-parse
 	./spc micro:combine ast-dump.phar --output=build/ast-dump
-	# as C lib (--build-embed) // @todo. Cf. https://github.com/nikic/php-ast
-	#./spc build --build-embed --build-micro "ctype,tokenizer" --with-upx-pack
+
+# todo: replace me with "ast"
+build-lib: spc ast-phar ast-dump micro
+	./spc build --build-embed "ctype,tokenizer" --with-upx-pack
