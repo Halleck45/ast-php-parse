@@ -9,6 +9,8 @@
 // Mutex global si NTS (optionnel, selon build)
 static int g_inited = 0;
 
+static unsigned int ast_current_version_fallback(void);
+
 int ast_init(void) {
     if (g_inited) return 1;
 
@@ -61,10 +63,11 @@ static int node_to_array(zval *return_value, zval *node) {
 static char* do_parse_code(const char* code, const char* filename, unsigned int ast_version, unsigned int flags) {
     zval fname, args[3], retval;
 
-    ZVAL_STRING(&fname, "ast\\parse_code");
+    unsigned int version_to_use = ast_version ? ast_version : ast_current_version_fallback();
 
+    ZVAL_STRING(&fname, "ast\\parse_code");
     ZVAL_STRING(&args[0], code);
-    ZVAL_LONG(&args[1], ast_version ? (long)ast_version : 0); // 0 => AST_CURRENT
+    ZVAL_LONG(&args[1], (long)version_to_use);
     ZVAL_LONG(&args[2], (long)flags);
 
     if (call_user_function(EG(function_table), NULL, &fname, &retval, 3, args) == FAILURE) {
@@ -126,4 +129,37 @@ char* ast_parse_file_json(const char* path, unsigned int ast_version, unsigned i
     free(buf);
     return out;
 
+}
+
+static unsigned int ast_current_version_fallback(void) {
+    // 1) Essayer la constante AST_CURRENT
+    zval *c = zend_get_constant_str("AST_CURRENT", sizeof("AST_CURRENT") - 1);
+    if (c && Z_TYPE_P(c) == IS_LONG) {
+        return (unsigned int) Z_LVAL_P(c);
+    }
+
+    // 2) Sinon, ast\get_supported_versions() et on prend le max
+    zval fname, retval;
+    ZVAL_STRINGL(&fname, "ast\\get_supported_versions", sizeof("ast\\get_supported_versions") - 1);
+    if (call_user_function(EG(function_table), NULL, &fname, &retval, 0, NULL) == SUCCESS
+        && Z_TYPE(retval) == IS_ARRAY) {
+
+        unsigned int maxv = 0;
+        zval *zv_ver;
+        ZEND_HASH_FOREACH_VAL(Z_ARRVAL(retval), zv_ver) {
+            if (Z_TYPE_P(zv_ver) == IS_LONG) {
+                unsigned int v = (unsigned int) Z_LVAL_P(zv_ver);
+                if (v > maxv) maxv = v;
+            }
+        } ZEND_HASH_FOREACH_END();
+
+        zval_ptr_dtor(&retval);
+        zval_ptr_dtor(&fname);
+        if (maxv) return maxv;
+    } else {
+        zval_ptr_dtor(&fname);
+    }
+
+    // 3) Dernier recours : valeur récente connue
+    return 120;
 }

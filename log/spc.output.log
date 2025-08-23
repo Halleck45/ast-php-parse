@@ -1,48 +1,48 @@
-[06:49:40] [D] scanning directory /home/jflepine/Personnel/Projets/ast-php-parse/static-php-cli/src/SPC/builder/extension
-[06:49:40] [D] scanning directory /home/jflepine/Personnel/Projets/ast-php-parse/static-php-cli/src/SPC/doctor/item
-[06:49:40] [D] Setting env: PATH=/home/jflepine/Personnel/Projets/ast-php-parse/buildroot/bin:/home/jflepine/.yarn/bin:/home/jflepine/.config/yarn/global/node_modules/.bin:/home/jflepine/.cargo/bin:/home/jflepine/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin:/home/jflepine/.local/bin:/home/jflepine/.venvs/MyEnv/bin:/home/jflepine/.local/bin:/usr/local/go/bin;/home/jflepine/.config/composer/vendor/bin/:/usr/local/go/bin:/home/jflepine/go/bin:/home/jflepine/.config/composer/vendor/bin/
-[06:49:40] [D] Setting env: PKG_CONFIG=/home/jflepine/Personnel/Projets/ast-php-parse/buildroot/bin/pkg-config
-[06:49:40] [D] Setting env: PKG_CONFIG_PATH=/home/jflepine/Personnel/Projets/ast-php-parse/buildroot/lib/pkgconfig
-[06:49:40] [D] Setting env: SPC_CONCURRENCY=16
-[06:49:40] [D] Setting env: SPC_SKIP_PHP_VERSION_CHECK=no
-[06:49:40] [D] Setting env: SPC_SKIP_DOCTOR_CHECK_ITEMS=
-[06:49:40] [D] Setting env: SPC_CMD_VAR_FRANKENPHP_XCADDY_MODULES=--with github.com/dunglas/frankenphp/caddy --with github.com/dunglas/mercure/caddy --with github.com/dunglas/vulcain/caddy --with github.com/dunglas/caddy-cbrotli
-[06:49:40] [D] Setting env: PHP_BUILD_PROVIDER=static-php-cli 2.7.2
-[06:49:40] [D] Setting env: SPC_LIBC=musl
-[06:49:40] [D] Setting env: CC=
-[06:49:40] [D] Setting env: CXX=
-[06:49:40] [D] Setting env: AR=
-[06:49:40] [D] Setting env: LD=
-[06:49:40] [D] Setting env: SPC_DEFAULT_C_FLAGS=-fPIC -Os
-[06:49:40] [D] Setting env: SPC_DEFAULT_CXX_FLAGS=-fPIC -Os
-[06:49:40] [D] Setting env: SPC_DEFAULT_LD_FLAGS=
-[06:49:40] [D] Setting env: UPX_EXEC=/home/jflepine/Personnel/Projets/ast-php-parse/pkgroot/bin/upx
-[06:49:40] [D] Setting env: SPC_MICRO_PATCHES=cli_checks,disable_huge_page
-[06:49:40] [D] Setting env: SPC_CMD_PREFIX_PHP_BUILDCONF=./buildconf --force
-[06:49:40] [D] Setting env: SPC_CMD_PREFIX_PHP_CONFIGURE=./configure --prefix= --with-valgrind=no --disable-shared --enable-static --disable-all --disable-cgi --disable-phpdbg --with-pic
-[06:49:40] [D] Setting env: SPC_CMD_PREFIX_PHP_MAKE=make -j
-[06:49:40] [D] Setting env: SPC_CMD_VAR_PHP_EMBED_TYPE=static
-[06:49:40] [D] Setting env: SPC_CMD_VAR_PHP_CONFIGURE_CFLAGS= -fPIE
-[06:49:40] [D] Setting env: SPC_CMD_VAR_PHP_MAKE_EXTRA_CFLAGS=-g -fstack-protector-strong -fno-ident -fPIE 
-[06:49:40] [D] Setting env: SPC_CMD_VAR_PHP_MAKE_EXTRA_LDFLAGS=
-[06:49:40] [D] Setting env: SPC_LINUX_DEFAULT_CC=x86_64-linux-musl-gcc
-[06:49:40] [D] Setting env: SPC_LINUX_DEFAULT_CXX=x86_64-linux-musl-g++
-[06:49:40] [D] Setting env: SPC_LINUX_DEFAULT_AR=x86_64-linux-musl-ar
-[06:49:40] [D] Setting env: SPC_LINUX_DEFAULT_LD=x86_64-linux-musl-ld
-[06:49:40] [D] Setting env: PATH=/usr/local/musl/bin:/home/jflepine/Personnel/Projets/ast-php-parse/buildroot/bin:/home/jflepine/.yarn/bin:/home/jflepine/.config/yarn/global/node_modules/.bin:/home/jflepine/.cargo/bin:/home/jflepine/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin:/home/jflepine/.local/bin:/home/jflepine/.venvs/MyEnv/bin:/home/jflepine/.local/bin:/usr/local/go/bin;/home/jflepine/.config/composer/vendor/bin/:/usr/local/go/bin:/home/jflepine/go/bin:/home/jflepine/.config/composer/vendor/bin/
-[06:49:40] [D] Setting env: PATH=/usr/local/musl/x86_64-linux-musl/bin:/usr/local/musl/bin:/home/jflepine/Personnel/Projets/ast-php-parse/buildroot/bin:/home/jflepine/.yarn/bin:/home/jflepine/.config/yarn/global/node_modules/.bin:/home/jflepine/.cargo/bin:/home/jflepine/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin:/home/jflepine/.local/bin:/home/jflepine/.venvs/MyEnv/bin:/home/jflepine/.local/bin:/usr/local/go/bin;/home/jflepine/.config/composer/vendor/bin/:/usr/local/go/bin:/home/jflepine/go/bin:/home/jflepine/.config/composer/vendor/bin/
-[06:49:40] [D] Setting env: SPC_LD_LIBRARY_PATH=/usr/local/musl/lib:/usr/local/musl/x86_64-linux-musl/lib
-[06:49:40] [D] Setting env: SPC_LIBRARY_PATH=/usr/local/musl/lib:/usr/local/musl/x86_64-linux-musl/lib
-[06:49:40] [D] Setting env: SPC_TOOLCHAIN=SPC\toolchain\MuslToolchain
-[06:49:40] [D] Setting env: CC=x86_64-linux-musl-gcc
-[06:49:40] [D] Setting env: CXX=x86_64-linux-musl-g++
-[06:49:40] [D] Setting env: AR=x86_64-linux-musl-ar
-[06:49:40] [D] Setting env: LD=x86_64-linux-musl-ld
-[06:49:40] [D] Setting env: SPC_CMD_PREFIX_PHP_MAKE=make -j16
-[06:49:40] [D] Setting env: SPC_CMD_VAR_PHP_CONFIGURE_CFLAGS=-fPIC -Os -fPIE
-[06:49:40] [D] Setting env: SPC_CMD_VAR_PHP_MAKE_EXTRA_CFLAGS=-g -fstack-protector-strong -fno-ident -fPIE -fPIC -Os
-[06:49:40] [D] Setting env: SPC_SKIP_TOOLCHAIN_CHECK=yes
-[06:49:40] [D] argv: ./spc spc-config ast,tokenizer --libs
-[06:49:40] [D] Dir /home/jflepine/Personnel/Projets/ast-php-parse/buildroot/lib/pkgconfig already exists, ignored
-[06:49:40] [D] Dir /home/jflepine/Personnel/Projets/ast-php-parse/buildroot/include already exists, ignored
-[06:49:40] [D] scanning directory /home/jflepine/Personnel/Projets/ast-php-parse/static-php-cli/src/SPC/builder/linux/library
+[07:01:40] [D] scanning directory /home/jflepine/Personnel/Projets/ast-php-parse/static-php-cli/src/SPC/builder/extension
+[07:01:40] [D] scanning directory /home/jflepine/Personnel/Projets/ast-php-parse/static-php-cli/src/SPC/doctor/item
+[07:01:40] [D] Setting env: PATH=/home/jflepine/Personnel/Projets/ast-php-parse/buildroot/bin:/home/jflepine/.yarn/bin:/home/jflepine/.config/yarn/global/node_modules/.bin:/home/jflepine/.cargo/bin:/home/jflepine/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin:/home/jflepine/.local/bin:/home/jflepine/.venvs/MyEnv/bin:/home/jflepine/.local/bin:/usr/local/go/bin;/home/jflepine/.config/composer/vendor/bin/:/usr/local/go/bin:/home/jflepine/go/bin:/home/jflepine/.config/composer/vendor/bin/
+[07:01:40] [D] Setting env: PKG_CONFIG=/home/jflepine/Personnel/Projets/ast-php-parse/buildroot/bin/pkg-config
+[07:01:40] [D] Setting env: PKG_CONFIG_PATH=/home/jflepine/Personnel/Projets/ast-php-parse/buildroot/lib/pkgconfig
+[07:01:40] [D] Setting env: SPC_CONCURRENCY=16
+[07:01:40] [D] Setting env: SPC_SKIP_PHP_VERSION_CHECK=no
+[07:01:40] [D] Setting env: SPC_SKIP_DOCTOR_CHECK_ITEMS=
+[07:01:40] [D] Setting env: SPC_CMD_VAR_FRANKENPHP_XCADDY_MODULES=--with github.com/dunglas/frankenphp/caddy --with github.com/dunglas/mercure/caddy --with github.com/dunglas/vulcain/caddy --with github.com/dunglas/caddy-cbrotli
+[07:01:40] [D] Setting env: PHP_BUILD_PROVIDER=static-php-cli 2.7.2
+[07:01:40] [D] Setting env: SPC_LIBC=musl
+[07:01:40] [D] Setting env: CC=
+[07:01:40] [D] Setting env: CXX=
+[07:01:40] [D] Setting env: AR=
+[07:01:40] [D] Setting env: LD=
+[07:01:40] [D] Setting env: SPC_DEFAULT_C_FLAGS=-fPIC -Os
+[07:01:40] [D] Setting env: SPC_DEFAULT_CXX_FLAGS=-fPIC -Os
+[07:01:40] [D] Setting env: SPC_DEFAULT_LD_FLAGS=
+[07:01:40] [D] Setting env: UPX_EXEC=/home/jflepine/Personnel/Projets/ast-php-parse/pkgroot/bin/upx
+[07:01:40] [D] Setting env: SPC_MICRO_PATCHES=cli_checks,disable_huge_page
+[07:01:40] [D] Setting env: SPC_CMD_PREFIX_PHP_BUILDCONF=./buildconf --force
+[07:01:40] [D] Setting env: SPC_CMD_PREFIX_PHP_CONFIGURE=./configure --prefix= --with-valgrind=no --disable-shared --enable-static --disable-all --disable-cgi --disable-phpdbg --with-pic
+[07:01:40] [D] Setting env: SPC_CMD_PREFIX_PHP_MAKE=make -j
+[07:01:40] [D] Setting env: SPC_CMD_VAR_PHP_EMBED_TYPE=static
+[07:01:40] [D] Setting env: SPC_CMD_VAR_PHP_CONFIGURE_CFLAGS= -fPIE
+[07:01:40] [D] Setting env: SPC_CMD_VAR_PHP_MAKE_EXTRA_CFLAGS=-g -fstack-protector-strong -fno-ident -fPIE 
+[07:01:40] [D] Setting env: SPC_CMD_VAR_PHP_MAKE_EXTRA_LDFLAGS=
+[07:01:40] [D] Setting env: SPC_LINUX_DEFAULT_CC=x86_64-linux-musl-gcc
+[07:01:40] [D] Setting env: SPC_LINUX_DEFAULT_CXX=x86_64-linux-musl-g++
+[07:01:40] [D] Setting env: SPC_LINUX_DEFAULT_AR=x86_64-linux-musl-ar
+[07:01:40] [D] Setting env: SPC_LINUX_DEFAULT_LD=x86_64-linux-musl-ld
+[07:01:40] [D] Setting env: PATH=/usr/local/musl/bin:/home/jflepine/Personnel/Projets/ast-php-parse/buildroot/bin:/home/jflepine/.yarn/bin:/home/jflepine/.config/yarn/global/node_modules/.bin:/home/jflepine/.cargo/bin:/home/jflepine/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin:/home/jflepine/.local/bin:/home/jflepine/.venvs/MyEnv/bin:/home/jflepine/.local/bin:/usr/local/go/bin;/home/jflepine/.config/composer/vendor/bin/:/usr/local/go/bin:/home/jflepine/go/bin:/home/jflepine/.config/composer/vendor/bin/
+[07:01:40] [D] Setting env: PATH=/usr/local/musl/x86_64-linux-musl/bin:/usr/local/musl/bin:/home/jflepine/Personnel/Projets/ast-php-parse/buildroot/bin:/home/jflepine/.yarn/bin:/home/jflepine/.config/yarn/global/node_modules/.bin:/home/jflepine/.cargo/bin:/home/jflepine/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin:/home/jflepine/.local/bin:/home/jflepine/.venvs/MyEnv/bin:/home/jflepine/.local/bin:/usr/local/go/bin;/home/jflepine/.config/composer/vendor/bin/:/usr/local/go/bin:/home/jflepine/go/bin:/home/jflepine/.config/composer/vendor/bin/
+[07:01:40] [D] Setting env: SPC_LD_LIBRARY_PATH=/usr/local/musl/lib:/usr/local/musl/x86_64-linux-musl/lib
+[07:01:40] [D] Setting env: SPC_LIBRARY_PATH=/usr/local/musl/lib:/usr/local/musl/x86_64-linux-musl/lib
+[07:01:40] [D] Setting env: SPC_TOOLCHAIN=SPC\toolchain\MuslToolchain
+[07:01:40] [D] Setting env: CC=x86_64-linux-musl-gcc
+[07:01:40] [D] Setting env: CXX=x86_64-linux-musl-g++
+[07:01:40] [D] Setting env: AR=x86_64-linux-musl-ar
+[07:01:40] [D] Setting env: LD=x86_64-linux-musl-ld
+[07:01:40] [D] Setting env: SPC_CMD_PREFIX_PHP_MAKE=make -j16
+[07:01:40] [D] Setting env: SPC_CMD_VAR_PHP_CONFIGURE_CFLAGS=-fPIC -Os -fPIE
+[07:01:40] [D] Setting env: SPC_CMD_VAR_PHP_MAKE_EXTRA_CFLAGS=-g -fstack-protector-strong -fno-ident -fPIE -fPIC -Os
+[07:01:40] [D] Setting env: SPC_SKIP_TOOLCHAIN_CHECK=yes
+[07:01:40] [D] argv: ./spc spc-config ast,tokenizer --libs
+[07:01:40] [D] Dir /home/jflepine/Personnel/Projets/ast-php-parse/buildroot/lib/pkgconfig already exists, ignored
+[07:01:40] [D] Dir /home/jflepine/Personnel/Projets/ast-php-parse/buildroot/include already exists, ignored
+[07:01:40] [D] scanning directory /home/jflepine/Personnel/Projets/ast-php-parse/static-php-cli/src/SPC/builder/linux/library
