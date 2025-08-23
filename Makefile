@@ -1,4 +1,4 @@
-.PHONY: build spc
+.PHONY: build spc demo
 
 # We want to use only the PHP binaries from the static-php-cli project
 PATH := $(shell pwd)/static-php-cli/bin:$(PATH)
@@ -38,10 +38,48 @@ build-lib: spc
 	mv source/embed-test build/lib
 
 clean:
-	rm -rf build
+	#rm -rf build
+	rm -f *.o *.a
+	rm -rf bin
 
 # Dumping AST to PHP file is not supported natively. We use a custom library to do so.
 ast-dump.phar: composer php
 	./composer install
 	./php -d phar.readonly=0 -d phar.require_hash=0 bin/build-phar.php dump
 
+
+
+# Récupérer les flags de static-php-cli (spc)
+SPC  := ./spc
+EXTS := ast,tokenizer
+
+INC  := $(shell $(SPC) spc-config $(EXTS) --includes | tr '\n' ' ')
+LIBS := $(shell $(SPC) spc-config $(EXTS) --libs     | tr '\n' ' ')
+
+CC ?= cc
+CFLAGS ?= -O3 -fPIC
+
+all: demo
+
+# Compile le C en archive et place la lib + header dans bridge/
+lib: c/ast_bridge.c bridge/ast_bridge.h
+	$(CC) $(CFLAGS) $(INC) -c c/ast_bridge.c -o c/ast_bridge.o
+	ar rcs bridge/libastbridge.a c/ast_bridge.o
+
+demo: lib
+	@mkdir -p bin
+	GOFLAGS=-mod=mod CGO_ENABLED=1 \
+	CGO_CFLAGS="$(INC)" \
+	CGO_LDFLAGS="$(LIBS) -Wl,-rpath,'$$ORIGIN'" \
+	go build -v -o bin/demo ./demo
+
+print:
+	@echo INC:  $(INC)
+	@echo LIBS: $(LIBS)
+
+clean:
+	rm -f c/*.o
+	rm -f bridge/libastbridge.a
+	rm -rf bin
+
+.PHONY: all lib demo print clean
