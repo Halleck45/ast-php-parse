@@ -1,73 +1,62 @@
-# PHP Parser
+# go-php-parser (PhpParser)
 
-Dumps PHP Code to AST file (and back).
+Go library **plug-and-play** to parse PHP code through the embed SAPI + `ext-ast`, returning the AST as **JSON**.  
+No PHP installation required: prebuilt binaries are automatically fetched on first use.
 
-This projects is currently in development and is not ready.
+## Installation
 
-# Why?
-
-To be able to parse PHP code from any language that can embed a C library.
-
-# How?
-
-Thanks to [static-php-cli](https://github.com/crazywhalecc/static-php-cli), we build a PHP binary with the [`ast` extension](https://github.com/nikic/php-ast) enabled.
-
-Then we use this binary to parse PHP code and dump it to an `ast` file.
-
-Converting PHP code to AST is native. However, the reverse (generating PHP code from AST) is not, and uses PHP code. This function is therefore only usable via the binaries, and not via the C library.
-
-## Building binaries and libs
-    
 ```bash
-make build
+go get github.com/Halleck45/go-php-parser
 ```
 
-## Dependencies
+> Go 1.20+ recommended. `CGO_ENABLED=1` must be active (default on macOS/Linux).
 
-No dependencies are required.
+## Supported platforms
+
+- Linux: `linux_amd64_glibc` (default)
+- macOS: `darwin_amd64`, `darwin_arm64`
+- Windows: `windows_amd64`
+
+> Other targets (musl, Linux arm64) can be added via dedicated prebuilts.
 
 ## Usage
 
-### As C library
+```go
+package main
 
-Build the project. 
+import (
+    "fmt"
+    "github.com/Halleck45/go-php-parser"
+)
 
-Then you'll find the library in `source/embed-test` directory.
+func main() {
+    defer PhpParser.Shutdown()
 
-### Using binaries
+    // Inline code
+    json, ok := PhpParser.ParseCode("<?php function foo(int $a){return $a+1;}", "inline.php", 0, 0)
+    if !ok {
+        panic("parse failed")
+    }
+    fmt.Println(json)
 
-Generate a `ast` file from any PHP file:
-
-```bash
-ast-parse <file.php> > output.ast
+    // File
+    json2, ok := PhpParser.ParseFile("example.php", 0, 0)
+    if !ok {
+        panic("parse file failed")
+    }
+    fmt.Println(json2)
+}
 ```
 
-Reverse:
+### Parameters
+- `astVersion`: `0` ⇒ **current** version of `ext-ast` (recommended).
+- `flags`: `0` (default).
 
-```bash
-ast-dump output.ast > myfile.php
-```
+The lib returns **JSON** with at least:
+- `root`: AST array (via `ast\dump(..., AST_DUMP_ARRAY)`)
+- `version`: metadata (PHP, ext-ast, ast_version, engine)
+- `file` (if provided)
 
-## Contributing
+## License
 
-You'll need some extra dependencies to build the project. Please run:
-
-```bash
-make spc
-```
-
-Then you can download missing dependencies with:
-
-```bash
-./spc doctor --auto-fix
-```
-
-## Todo
-
-+ [ ] Adding `ast` support to [static-php-cli](https://github.com/crazywhalecc/static-php-cli/) (Cf. This [PR](https://github.com/crazywhalecc/static-php-cli/pull/5831)))
-+ [ ] Embed as C library
-+ [ ] ARM, Darwin, Windows support
-
-# License
-
-MIT. See [LICENSE](LICENSE) file.
+MIT (see `LICENSE`).

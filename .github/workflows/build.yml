@@ -1,40 +1,90 @@
-name: build
+name: Build & Upload Prebuilt
 
 on:
   push:
-    branches:
-      - main
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag (e.g. v0.1.0)'
+        required: true
 
 permissions:
   contents: write
 
 jobs:
-  release:
-    runs-on: ubuntu-latest
+  prebuilt:
+    name: ${{ matrix.target }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            target: linux-amd64
+            cc: gcc
+            musl_cc: gcc
+          - os: macos-13
+            target: darwin-amd64
+            cc: clang
+            musl_cc: clang
+          - os: macos-14
+            target: darwin-arm64
+            cc: clang
+            musl_cc: clang
+          - os: windows-latest
+            target: windows-amd64
+            cc: gcc
+            musl_cc: gcc
+
     steps:
-      # Checkout the repository
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
 
-      # Install deependencies
-      - name: "Install dependencies"
+      - uses: actions/setup-go@v5
+        with: { go-version: '1.22.x' }
+
+      - name: Install deps (Linux)
+        if: startsWith(matrix.os, 'ubuntu')
         run: |
-          # spc is a PHP program to manage build
-          apt update
-          apt install -y php-cli
+          sudo apt-get update
+          sudo apt-get install -y build-essential git upx musl-tools
 
-          # Install dependencies
-          make spc
-          ./spc doctor --auto-fix
+      - name: Show toolchains
+        shell: bash
+        run: |
+          echo "go: $(go version)"
+          echo "CC: ${{ matrix.cc }}"
+          command -v ${{ matrix.cc }} || true
 
-      # Build artifacts
-      - name: "Build artifacts"
-        run: make build
+      - name: Build & package prebuilt
+        shell: bash
+        env:
+          CC: ${{ matrix.cc }}
+          MUSL_CC: ${{ matrix.musl_cc }}
+          TARGET: ${{ matrix.target }}
+        run: |
+          set -euxo pipefail
+          make package TARGET="${TARGET}"
+          echo "Contents:"
+          find "v1/prebuilt/${TARGET}" -maxdepth 2 -type f -print
+          tar -C v1 -czf "prebuilt-${TARGET}.tar.gz" "prebuilt/${TARGET}"
 
-      # Publish all files in the "build" directory
-      - name: "Publish artifacts"
-        uses: actions/upload-artifact@v4
+      - name: Determine release tag
+        id: tag
+        shell: bash
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo "name=${{ github.event.inputs.tag }}" >> $GITHUB_OUTPUT
+          else
+            echo "name=${GITHUB_REF_NAME}" >> $GITHUB_OUTPUT
+          fi
+          echo "Release tag: $(cat $GITHUB_OUTPUT)"
+
+      - name: Upload to GitHub Release
+        uses: softprops/action-gh-release@v2
         with:
-          name: build
-          path: build/*
+          tag_name: ${{ steps.tag.outputs.name }}
+          files: prebuilt-${{ matrix.target }}.tar.gz
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
