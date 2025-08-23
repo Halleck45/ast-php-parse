@@ -62,24 +62,36 @@ CFLAGS ?= -O3 -fPIC
 all: demo
 
 # Compile le C en archive et place la lib + header dans bridge/
+SPC  := ./spc
+EXTS := ast,tokenizer
+
+INC  := $(shell $(SPC) spc-config $(EXTS) --includes | tr '\n' ' ')
+LIBS := $(shell $(SPC) spc-config $(EXTS) --libs     | tr '\n' ' ')
+
+# ==== IMPORTANT : utiliser le même CC que static-php-cli ====
+# Sur Linux glibc x86_64, c’est typiquement :
+MUSL_CC ?= /usr/local/musl/bin/x86_64-linux-musl-gcc
+# (si tu es sur arm64 glibc : /usr/local/musl/bin/aarch64-linux-musl-gcc)
+# macOS : clang (pas musl) — voir la doc.
+
+CFLAGS ?= -O3 -fPIC
+
+all: demo
+
 lib: c/ast_bridge.c bridge/ast_bridge.h
-	$(CC) $(CFLAGS) $(INC) -c c/ast_bridge.c -o c/ast_bridge.o
+	$(MUSL_CC) $(CFLAGS) $(INC) -c c/ast_bridge.c -o c/ast_bridge.o
 	ar rcs bridge/libastbridge.a c/ast_bridge.o
 
 demo: lib
 	@mkdir -p bin
-	GOFLAGS=-mod=mod CGO_ENABLED=1 \
+	# CC pour cgo = même CC (musl-gcc)
+	GOFLAGS=-mod=mod CC=$(MUSL_CC) CGO_ENABLED=1 \
 	CGO_CFLAGS="$(INC)" \
 	CGO_LDFLAGS="$(LIBS) -Wl,-rpath,'$$ORIGIN'" \
 	go build -v -o bin/demo ./demo
 
-print:
-	@echo INC:  $(INC)
-	@echo LIBS: $(LIBS)
-
 clean:
-	rm -f c/*.o
-	rm -f bridge/libastbridge.a
+	rm -f c/*.o bridge/libastbridge.a
 	rm -rf bin
 
-.PHONY: all lib demo print clean
+.PHONY: all lib demo clean
