@@ -18,4 +18,5 @@ func main() {
 		log.Fatal("parse_code failed")
 	}
 	fmt.Println(json)
+	fmt.Printf("len=%d\n", len(json))
 }
