@@ -28,7 +28,6 @@ spc:
 	ln -sf static-php-cli/bin/spc spc
 	./spc --version
 	./spc download --with-php=8.4 --for-extensions "ctype,tokenizer,ast"
-	./spc install-pkg upx
 
 # Build the embedded PHP runtime (libs under build/lib)
 php-runtime: build-lib
