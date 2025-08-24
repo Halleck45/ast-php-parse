@@ -15,7 +15,6 @@ go get github.com/Halleck45/go-php-parser
 
 - Linux: `linux_amd64_glibc` (default)
 - macOS: `darwin_amd64`, `darwin_arm64`
-- Windows: `windows_amd64`
 
 > Other targets (musl, Linux arm64) can be added via dedicated prebuilts.
 
@@ -49,6 +48,7 @@ func main() {
 ```
 
 ### Parameters
+
 - `astVersion`: `0` ⇒ **current** version of `ext-ast` (recommended).
 - `flags`: `0` (default).
 
@@ -56,6 +56,8 @@ The lib returns **JSON** with at least:
 - `root`: AST array (via `ast\dump(..., AST_DUMP_ARRAY)`)
 - `version`: metadata (PHP, ext-ast, ast_version, engine)
 - `file` (if provided)
+
+## Performance
 
 ## License
 

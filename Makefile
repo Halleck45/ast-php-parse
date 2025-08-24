@@ -27,7 +27,7 @@ spc:
 	cd static-php-cli && chmod +x bin/spc
 	ln -sf static-php-cli/bin/spc spc
 	./spc --version
-	sudo ./spc doctor
+	./spc doctor || sudo ./spc doctor
 	./spc download --with-php=8.4 --for-extensions "ctype,tokenizer,ast"
 
 # Build the embedded PHP runtime (libs under build/lib)
