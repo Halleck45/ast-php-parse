@@ -32,10 +32,10 @@ jobs:
             target: darwin-arm64
             cc: clang
             musl_cc: clang
-          - os: windows-latest
-            target: windows-amd64
-            cc: gcc
-            musl_cc: gcc
+          #- os: windows-latest
+          #  target: windows-amd64
+          #  cc: gcc
+          #  musl_cc: gcc
 
     steps:
       - uses: actions/checkout@v4
