@@ -18,6 +18,7 @@ endif
 PATH := $(shell pwd)/static-php-cli/bin:$(PATH)
 spc: export PATH := $(shell pwd)/static-php-cli/bin:$(PATH)
 spc:
+	mkdir -p log build buildroot downloads source
 	rm -rf static-php-cli || true
 	git clone https://github.com/crazywhalecc/static-php-cli.git
 	cd static-php-cli && chmod +x bin/setup-runtime
@@ -26,7 +27,6 @@ spc:
 	static-php-cli/bin/composer install --no-dev
 	cd static-php-cli && chmod +x bin/spc
 	ln -sf static-php-cli/bin/spc spc
-	mkdir -p log
 	./spc --version
 	./spc doctor || sudo ./spc doctor
 	./spc download --with-php=8.4 --for-extensions "ctype,tokenizer,ast"
