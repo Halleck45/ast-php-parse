@@ -2,8 +2,17 @@
 
 <img src="https://raw.githubusercontent.com/Halleck45/go-php-parser/main/.github/docs/go-php-parser-logo.png" height="200px" alt="Go-PHP-Parser" align="left" style="margin-right:20px"/>
 
+[![CI](https://github.com/Halleck45/ast-metrics/actions/workflows/test.yml/badge.svg)](https://github.com/Halleck45/ast-metrics/actions/workflows/test.yml)
+![GitHub Release](https://img.shields.io/github/v/release/Halleck45/go-php-parser)
+
+
 Go library **plug-and-play** to parse PHP code through the embed SAPI + `ext-ast`, returning the AST as **JSON**.  
 No PHP installation required: prebuilt binaries are automatically fetched on first use.
+
+[Sponsor me!](https://github.com/sponsors/Halleck45)
+
+<br/><br/>
+<br/><br/>
 
 ## Installation
 
@@ -48,6 +57,10 @@ func main() {
     fmt.Println(json2)
 }
 ```
+
+## Performance
+
+The parser processes 4,000–8,000 PHP files per second on a standard development machine (multi-core CPU, NVMe SSD).
 
 ### Parameters
 

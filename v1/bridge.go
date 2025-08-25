@@ -25,14 +25,13 @@ var initOK bool
 // Initialization is now performed implicitly by ParseCode/ParseFile on first use.
 func Init() bool {
 	initOnce.Do(func() {
-	    fmt.Println("PhpParser: initializing AST parser bridge")
+	    // fmt.Println("PhpParser: initializing AST parser bridge")
 		initOK = C.ast_init() != 0
 
-		fmt.Println("Downloading prebuilt binaries if needed")
+		// fmt.Println("Downloading prebuilt binaries if needed")
         if err := fetchPrebuilt("v0.1.0"); err != nil {
             panic(err)
         }
-
 	})
 	return initOK
 }
@@ -81,6 +80,7 @@ func ParseFile(path string, astVersion, flags uint) (string, bool) {
 
 func fetchPrebuilt(version string) error {
 	target := detectTarget()
+	prefix := ""
 	dest := filepath.Join("v1", "prebuilt", target)
 	if _, err := os.Stat(dest); err == nil {
 		// déjà présent
@@ -88,9 +88,9 @@ func fetchPrebuilt(version string) error {
 	}
 	fmt.Println("Fetching prebuilt for", target)
 
-	url := fmt.Sprintf("https://github.com/Halleck45/go-php-parser/releases/download/%s/%s-%s.tar.gz",
-		version, "go-php-parser", target)
-
+	url := fmt.Sprintf("https://github.com/Halleck45/go-php-parser/releases/download/%s/%s%s.tar.gz",
+		version, prefix, target)
+    fmt.Println("Downloading from", url)
 	resp, err := http.Get(url)
 	if err != nil { return err }
 	defer resp.Body.Close()
@@ -121,15 +121,14 @@ func fetchPrebuilt(version string) error {
 func detectTarget() string {
 	switch runtime.GOOS {
 	case "linux":
-		// simplifié: amd64 glibc
-		return "linux_amd64_glibc"
+		return "prebuilt-linux_amd64_musl"
 	case "darwin":
 		if runtime.GOARCH == "arm64" {
-			return "darwin_arm64"
+			return "prebuilt-darwin_arm64"
 		}
-		return "darwin_amd64"
+		return "prebuilt-darwin_amd64"
 	case "windows":
-		return "windows_amd64"
+		return "prebuilt-windows_amd64"
 	default:
 		panic("unsupported target")
 	}

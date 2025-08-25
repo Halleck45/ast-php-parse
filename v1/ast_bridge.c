@@ -22,6 +22,7 @@ int ast_init(void) {
         "log_errors=0\n"
         "opcache.enable_cli=1\n"
         "extension=ast\n"
+        "memory_limit=-1\n"
         "opcache.jit=0\n";
 
     if (php_embed_init(0, NULL) == FAILURE) return 0;

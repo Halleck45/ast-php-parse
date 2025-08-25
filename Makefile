@@ -35,8 +35,10 @@ spc:
 php-runtime: build-lib
 
 build-lib: spc
-	./spc build --build-embed "ast" --debug
+	#./spc build --build-embed "ast" --debug
+	CFLAGS='-O2 -pipe' LDFLAGS='-Wl,--as-needed' ./spc build --build-embed "ast" -Imemory_limit=-1
 	mkdir -p build
+	rm -rf build/lib/embed-test
 	mv source/embed-test build/lib
 
 
