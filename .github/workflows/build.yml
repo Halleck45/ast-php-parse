@@ -1,4 +1,4 @@
-name: Build & Upload Prebuilt (musl)
+name: Build
 
 on:
   push:
