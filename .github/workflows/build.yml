@@ -1,4 +1,4 @@
-name: Build & Upload Prebuilt
+name: Build & Upload Prebuilt (musl)
 
 on:
   push:
@@ -20,22 +20,28 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          # Linux musl amd64
           - os: ubuntu-latest
-            target: linux-amd64
-            cc: gcc
-            musl_cc: gcc
+            target: linux_amd64_musl
+            cc: x86_64-linux-musl-gcc
+            cxx: x86_64-linux-musl-g++
+            ar:  x86_64-linux-musl-ar
+            ranlib: x86_64-linux-musl-ranlib
+          # macOS Intel
           - os: macos-13
-            target: darwin-amd64
+            target: darwin_amd64
             cc: clang
-            musl_cc: clang
+            cxx: clang++
+            ar:  ar
+            ranlib: ranlib
+          # macOS Apple Silicon
           - os: macos-14
-            target: darwin-arm64
+            target: darwin_arm64
             cc: clang
-            musl_cc: clang
-          #- os: windows-latest
-          #  target: windows-amd64
-          #  cc: gcc
-          #  musl_cc: gcc
+            cxx: clang++
+            ar:  ar
+            ranlib: ranlib
+          # (Windows désactivé ici)
 
     steps:
       - uses: actions/checkout@v4
@@ -44,25 +50,36 @@ jobs:
       - uses: actions/setup-go@v5
         with: { go-version: '1.22.x' }
 
-      - name: Install deps (Linux)
+      - name: Install deps (Ubuntu)
         if: startsWith(matrix.os, 'ubuntu')
         run: |
           sudo apt-get update
-          sudo apt-get install -y build-essential git upx musl-tools
+          sudo apt-get install -y build-essential git upx musl-tools pkg-config autoconf automake libtool
 
       - name: Show toolchains
         shell: bash
         run: |
           echo "go: $(go version)"
-          echo "CC: ${{ matrix.cc }}"
+          echo "CC:  ${{ matrix.cc }}"
+          echo "CXX: ${{ matrix.cxx }}"
           command -v ${{ matrix.cc }} || true
+          command -v ${{ matrix.cxx }} || true
 
       - name: Build & package prebuilt
         shell: bash
         env:
-          CC: ${{ matrix.cc }}
-          MUSL_CC: ${{ matrix.musl_cc }}
-          TARGET: ${{ matrix.target }}
+          # Utiliser musl partout (Linux) ; clang sur macOS
+          CC:      ${{ matrix.cc }}
+          CXX:     ${{ matrix.cxx }}
+          AR:      ${{ matrix.ar }}
+          RANLIB:  ${{ matrix.ranlib }}
+          # Variables lues par ton Makefile
+          MUSL_CC: ${{ matrix.cc }}
+          TARGET:  ${{ matrix.target }}
+          # Nettoie des flags auto ajoutés par configure si besoin
+          CFLAGS: ""
+          CXXFLAGS: ""
+          LDFLAGS: ""
         run: |
           set -euxo pipefail
           make package TARGET="${TARGET}"
