@@ -1,4 +1,4 @@
-# go-php-parser
+# Go-PHP-Parser
 
 <img src="https://raw.githubusercontent.com/Halleck45/go-php-parser/main/.github/docs/go-php-parser-logo.png" height="200px" alt="Go-PHP-Parser" align="left" style="margin-right:20px"/>
 
@@ -63,15 +63,16 @@ The parser processes 4,000–8,000 PHP files per second on a standard developmen
 
 ### Parameters
 
+For advanced usage, you can pass the following parameters:
+
 - `astVersion`: `0` ⇒ **current** version of `ext-ast` (recommended).
 - `flags`: `0` (default).
 
 The lib returns **JSON** with at least:
+
 - `root`: AST array (via `ast\dump(..., AST_DUMP_ARRAY)`)
 - `version`: metadata (PHP, ext-ast, ast_version, engine)
 - `file` (if provided)
-
-## Performance
 
 ## License
 
