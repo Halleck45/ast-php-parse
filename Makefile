@@ -15,6 +15,10 @@ else
   DEFAULT_MUSL_CC := /usr/local/musl/bin/x86_64-linux-musl-gcc
 endif
 
+SPC_PHP := $(shell pwd)/static-php-cli/bin/php
+SPC := PHP=$(SPC_PHP) ./spc
+EXTS := ast,tokenizer
+
 PATH := $(shell pwd)/static-php-cli/bin:$(PATH)
 spc: export PATH := $(shell pwd)/static-php-cli/bin:$(PATH)
 spc:
@@ -27,9 +31,9 @@ spc:
 	static-php-cli/bin/composer install --no-dev
 	cd static-php-cli && chmod +x bin/spc
 	ln -sf static-php-cli/bin/spc spc
-	./spc --version
-	./spc doctor || sudo ./spc doctor
-	./spc download --with-php=8.4 --for-extensions "ctype,tokenizer,ast"
+	$(SPC) --version
+	$(SPC) doctor || sudo ./spc doctor
+	$(SPC) download --with-php=8.4 --for-extensions "ctype,tokenizer,ast"
 
 # Build the embedded PHP runtime (libs under build/lib)
 php-runtime: build-lib
@@ -42,11 +46,7 @@ build-lib: spc
 	mv source/embed-test build/lib
 
 
-SPC  := ./spc
-EXTS := ast,tokenizer
 
-INC  = $(shell $(SPC) spc-config $(EXTS) --includes | tr '\n' ' ')
-LIBS = $(shell $(SPC) spc-config $(EXTS) --libs     | tr '\n' ' ')
 
 # rpath for non-Windows; empty on Windows
 ifeq ($(OS),Windows_NT)
@@ -67,7 +67,7 @@ MUSL_CC ?= $(DEFAULT_MUSL_CC)
 c-static-lib: lib
 
 lib: build-lib v1/ast_bridge.c v1/ast_bridge.h
-	$(MUSL_CC) $(CFLAGS) $(INC) -c v1/ast_bridge.c -o v1/ast_bridge.o
+	$(MUSL_CC) $(CFLAGS) $(shell $(SPC) spc-config $(EXTS) --includes | tr '\n' ' ') -c v1/ast_bridge.c -o v1/ast_bridge.o
 	ar rcs v1/libastbridge.a v1/ast_bridge.o
 
 # Build the Go demo (CGO links against the built libs)
@@ -77,8 +77,8 @@ demo: lib
 	@mkdir -p bin
 	# CC pour cgo = même CC (musl-gcc / clang selon plateforme)
 	GOFLAGS=-mod=mod CC=$(MUSL_CC) CGO_ENABLED=1 \
-	CGO_CFLAGS="$(INC)" \
-	CGO_LDFLAGS="$(LIBS) $(RPATH_FLAG)" \
+	CGO_CFLAGS="$(shell $(SPC) spc-config $(EXTS) --includes | tr '\n' ' ')" \
+	CGO_LDFLAGS="$(shell $(SPC) spc-config $(EXTS) --libs     | tr '\n' ' ') $(RPATH_FLAG)" \
 	go build -v -o bin/demo$(EXE) ./demo
 
 # Easy distribution. Should replace with a fetch go script, and a release publish step.

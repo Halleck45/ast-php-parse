@@ -24,10 +24,9 @@ go get github.com/Halleck45/go-php-parser
 
 ## Supported platforms
 
-- Linux: `linux_amd64_glibc` (default)
+- Linux: `linux_amd64`
 - macOS: `darwin_amd64`, `darwin_arm64`
 
-> Other targets (musl, Linux arm64) can be added via dedicated prebuilts.
 
 ## Usage
 
