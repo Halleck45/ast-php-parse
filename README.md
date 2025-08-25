@@ -1,4 +1,6 @@
-# go-php-parser (PhpParser)
+# go-php-parser
+
+<img src="https://raw.githubusercontent.com/Halleck45/go-php-parser/main/.github/docs/go-php-parser-logo.png" height="200px" alt="Go-PHP-Parser" align="left" style="margin-right:20px"/>
 
 Go library **plug-and-play** to parse PHP code through the embed SAPI + `ext-ast`, returning the AST as **JSON**.  
 No PHP installation required: prebuilt binaries are automatically fetched on first use.
