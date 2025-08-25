@@ -32,15 +32,15 @@ spc:
 	cd static-php-cli && chmod +x bin/spc
 	ln -sf static-php-cli/bin/spc spc
 	$(SPC) --version
-	$(SPC) doctor || sudo ./spc doctor
+	$(SPC) doctor || sudo $(SPC) doctor
 	$(SPC) download --with-php=8.4 --for-extensions "ctype,tokenizer,ast"
 
 # Build the embedded PHP runtime (libs under build/lib)
 php-runtime: build-lib
 
 build-lib: spc
-	#./spc build --build-embed "ast" --debug
-	CFLAGS='-O2 -pipe' LDFLAGS='-Wl,--as-needed' ./spc build --build-embed "ast" -Imemory_limit=-1
+	$(SPC) build --build-embed "ast" --debug
+	#CFLAGS='-O2 -pipe' LDFLAGS='-Wl,--as-needed' ./spc build --build-embed "ast" -Imemory_limit=-1
 	mkdir -p build
 	rm -rf build/lib/embed-test
 	mv source/embed-test build/lib
