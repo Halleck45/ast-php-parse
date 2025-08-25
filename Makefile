@@ -15,8 +15,10 @@ else
   DEFAULT_MUSL_CC := /usr/local/musl/bin/x86_64-linux-musl-gcc
 endif
 
+PHP_VERSION := 8.4
 SPC_PHP := $(shell pwd)/static-php-cli/bin/php
-SPC := PHP=$(SPC_PHP) ./spc
+SPC_BIN := $(shell pwd)/static-php-cli/bin/spc
+SPC := $(SPC_PHP) $(SPC_BIN)
 EXTS := ast,tokenizer
 
 PATH := $(shell pwd)/static-php-cli/bin:$(PATH)
@@ -33,7 +35,7 @@ spc:
 	ln -sf static-php-cli/bin/spc spc
 	$(SPC) --version
 	$(SPC) doctor || sudo $(SPC) doctor
-	$(SPC) download --with-php=8.4 --for-extensions "ctype,tokenizer,ast"
+	$(SPC) download --with-php=$(PHP_VERSION) 8.4 --for-extensions $(EXTS)
 
 # Build the embedded PHP runtime (libs under build/lib)
 php-runtime: build-lib
@@ -41,8 +43,8 @@ php-runtime: build-lib
 build-lib: spc
 	$(SPC) build --build-embed "ast"
 	mkdir -p build
-	rm -rf build/lib/embed-test
-	mv source/embed-test build/lib
+	#rm -rf build/lib/embed-test
+	#mv source/embed-test build/lib
 
 
 
@@ -56,10 +58,6 @@ endif
 
 CC ?= $(DEFAULT_CC)
 CFLAGS ?= -O3 -fPIC
-
-# ==== IMPORTANT : utiliser le même CC que static-php-cli ====
-# Sur Linux glibc x86_64, c’est typiquement musl-gcc.
-# macOS : clang (pas musl) — détecté plus haut.
 MUSL_CC ?= $(DEFAULT_MUSL_CC)
 
 # Build the C static library for the bridge
