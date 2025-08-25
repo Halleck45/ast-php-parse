@@ -2,7 +2,7 @@
 
 <img src="https://raw.githubusercontent.com/Halleck45/go-php-parser/main/.github/docs/go-php-parser-logo.png" height="200px" alt="Go-PHP-Parser" align="left" style="margin-right:20px"/>
 
-[![CI](https://github.com/Halleck45/ast-metrics/actions/workflows/test.yml/badge.svg)](https://github.com/Halleck45/ast-metrics/actions/workflows/test.yml)
+[![CI](https://github.com/Halleck45/go-php-parser/actions/workflows/build.yml/badge.svg)](https://github.com/Halleck45/go-php-parser/actions/workflows/build.yml)
 ![GitHub Release](https://img.shields.io/github/v/release/Halleck45/go-php-parser)
 
 

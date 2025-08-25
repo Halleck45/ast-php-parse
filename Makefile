@@ -39,8 +39,7 @@ spc:
 php-runtime: build-lib
 
 build-lib: spc
-	$(SPC) build --build-embed "ast" --debug
-	#CFLAGS='-O2 -pipe' LDFLAGS='-Wl,--as-needed' ./spc build --build-embed "ast" -Imemory_limit=-1
+	$(SPC) build --build-embed "ast"
 	mkdir -p build
 	rm -rf build/lib/embed-test
 	mv source/embed-test build/lib
@@ -75,7 +74,6 @@ go-demo: demo
 
 demo: lib
 	@mkdir -p bin
-	# CC pour cgo = même CC (musl-gcc / clang selon plateforme)
 	GOFLAGS=-mod=mod CC=$(MUSL_CC) CGO_ENABLED=1 \
 	CGO_CFLAGS="$(shell $(SPC) spc-config $(EXTS) --includes | tr '\n' ' ')" \
 	CGO_LDFLAGS="$(shell $(SPC) spc-config $(EXTS) --libs     | tr '\n' ' ') $(RPATH_FLAG)" \
@@ -93,8 +91,8 @@ package: lib
 	@if [ -f v1/ast_bridge.h   ]; then cp -f v1/ast_bridge.h   v1/prebuilt/$(TARGET)/include/; else echo "ast_bridge.h introuvable"; exit 1; fi
 
 	# PHP embed (spc)
-	@if [ -d buildroot/include/php ]; then cp -a buildroot/include/php v1/prebuilt/$(TARGET)/include/; else echo "headers PHP introuvables (run 'make build-lib')"; exit 1; fi
-	@if [ -f buildroot/lib/libphp.a ]; then cp -f buildroot/lib/libphp.a v1/prebuilt/$(TARGET)/lib/; else echo "libphp.a introuvable (run 'make build-lib')"; exit 1; fi
+	@if [ -d buildroot/include/php ]; then cp -a buildroot/include/php v1/prebuilt/$(TARGET)/include/; else echo "headers PHP not found (run 'make build-lib')"; exit 1; fi
+	@if [ -f buildroot/lib/libphp.a ]; then cp -f buildroot/lib/libphp.a v1/prebuilt/$(TARGET)/lib/; else echo "libphp.a not found (run 'make build-lib')"; exit 1; fi
 
 	# Cleanup
 	@rm -rf v1/prebuilt/$(TARGET)/embed v1/prebuilt/$(TARGET)/embed-test v1/prebuilt/$(TARGET)/embed.c v1/prebuilt/$(TARGET)/embed.php
